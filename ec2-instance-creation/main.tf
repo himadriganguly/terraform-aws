@@ -22,7 +22,7 @@ resource "aws_instance" "web" {
   key_name      = "deployer-key"
   
   tags = {
-    Name = "WebServer"
+    Name = "Server"
   }
 }
 
