@@ -13,13 +13,16 @@ provider "aws" {
 # Creates EC2 instance
 resource "aws_instance" "web" {
   # The OS image that will be used while creating the EC2 instance
-  ami           = var.amis[var.region]
+  ami           = "${lookup(var.amis, var.region, "ami-024a64a6685d05041")}"
   
   # The type of instance selection for the EC2 instance
   instance_type = "t2.micro" 
   
   # Attach the "deployer-key" Key Pair with this instance
   key_name      = "deployer-key"
+  
+  # Attach the security group "allow-ssh" with this instance
+  vpc_security_group_ids = ["${aws_security_group.allow-ssh.id}"] 
   
   tags = {
     Name = "Server"
@@ -29,7 +32,7 @@ resource "aws_instance" "web" {
 # Creates AWS Key Pair
 resource "aws_key_pair" "deployer" {
   key_name    = "deployer-key"
-  public_key  = var.public_key
+  public_key  = "${file("${var.path_to_public_key}")}"
 }
 
 output "public-ip" {
