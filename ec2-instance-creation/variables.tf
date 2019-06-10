@@ -3,7 +3,7 @@ variable "secret_key" {}
 variable "region" {
   default = "us-east-1"
 }
-variable "public_key" {}
+variable "path_to_public_key" {}
 
 variable "amis" {
   type = "map"
